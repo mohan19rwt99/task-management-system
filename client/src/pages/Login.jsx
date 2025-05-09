@@ -1,22 +1,37 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { post } from "../services/ApiEndpoint";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { SetUser } from "../redux/AuthSlice";
 
 const Login = () => {
-    const [email,setEmail] = useState('')
-    const [password, setPassword] = useState('')
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
-    const handleSubmit = async (e)=>{
-        e.preventDefault()
-        console.log(email,password)
-        try {
-            const request = await post('/api/auth/login',{email,password})
-            const response =request.data
-            console.log(response)
-        } catch (error) {
-            console.log(error)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    try {
+      const request = await post("/api/auth/login", { email, password });
+      const response = request.data;
+
+      if (request.status === 200) {
+        if(response.user.role == 'admin'){
+            navigate('/admin')
+        }else if(response.user.role == 'user'){
+          navigate('/')
         }
+        toast.success(response.message);
+        dispatch(SetUser(response.user));
+      }
+      console.log("response", response);
+    } catch (error) {
+      console.log(error);
     }
+  };
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -35,7 +50,7 @@ const Login = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="you@example.com"
                 required
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mb-6">
@@ -48,7 +63,7 @@ const Login = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="••••••••"
                 required
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button
@@ -58,9 +73,10 @@ const Login = () => {
               Login
             </button>
             <p className="mt-2 text-center">
-                Not Registrered ? 
-                <Link className=" text-blue-500" to={'/register'}>Register Here</Link>
-
+              Not Registrered ?
+              <Link className=" text-blue-500" to={"/register"}>
+                Register Here
+              </Link>
             </p>
           </form>
         </div>

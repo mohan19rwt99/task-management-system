@@ -3,6 +3,7 @@ import UserModel from "../models/user.js";
 export const Getuser = async (req, res) => {
     try {
         const users = await UserModel.find()
+        console.log(users)
         res.status(200).json({users})
         
     } catch (error) {

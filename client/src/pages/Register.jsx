@@ -9,37 +9,6 @@ function Register() {
   const [email,setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  // const onSubmit = async(e)=>{
-  //   e.preventDefault();
-  //   try {
-  //       const request = await post('/api/auth/register',{name,email,password})
-  //       const response = request.data;
-
-  //       toast.success('Register Succesfully',{
-  //         postion:'top-center',
-  //         autoClose:3000,
-  //       })
-
-  //       setName('')
-  //       setEmail('')
-  //       setPassword('')
-  //       console.log(response)
-  //   } catch (error) {
-  //     console.log(error)
-
-  //     if(error.response?.status === 401){
-  //       toast.error("This email is already registred",{
-  //         postion:'top-center',
-  //         duration:3000
-  //       })
-  //     }else{
-  //       toast.error(error.response?.data?.message || 'Registration failed', {
-  //         position: 'top-center',
-  //         duration: 3000,
-  //       });
-  //     }
-  //   }
-  // }
 
   const onSubmit = async(e) => {
     e.preventDefault();
@@ -48,10 +17,9 @@ function Register() {
       const request = await post('/api/auth/register', { name, email, password });
       const response = request.data;
   
-      toast.success('Register Successfully', {
-        position: 'top-center',
-        autoClose: 3000,
-      });
+     if(request.status == 200){
+      toast.success(response.message)
+     }
   
       // Reset the form only after the registration is successful
       setName('');
