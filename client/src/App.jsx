@@ -8,6 +8,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import UserLayout from "./layouts/UserLayout";
 import AdminUsers from "./admin/AdminUsers";
 import AdminSettings from "./admin/AdminSettings";
+import UserDashboard from "./user/UserDashboard";
+import CreateTask from "./user/CreateTask";
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
 
         {/* User Routes */}
           <Route path="/" element={<UserLayout />}>
-            <Route index element={<Home />} />
+            <Route index element={<UserDashboard />} />
+            <Route path="task" element={<CreateTask/>}/>
           </Route>
 
           {/* Admin Routes */}

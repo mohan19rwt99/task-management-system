@@ -14,11 +14,15 @@ function UserLayout() {
             }
     },[user])
   return (
-    <div>
+    <>
+      <div className='flex'>
       <UserSidebar/>
+        <div className='flex-1 p-8'>
         <Outlet/>
+        </div>
        
     </div>
+    </>
   )
 }
 
